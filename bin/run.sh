@@ -18,7 +18,11 @@ stage=2
 
 # Stage 1 - Preprocess data in to kaldi-required format
 if [ $stage -le 1 ]; then
-  $BIN_DIR/keep_original_script.sh
-  $BIN_DIR/data_prep.sh
-  $BIN_DIR/train_dev_test_split.sh
+  $BIN_DIR/preprocessing/keep_original_script.sh
+  $BIN_DIR/preprocessing/data_prep.sh
+  $BIN_DIR/preprocessing/train_dev_test_split.sh
 fi
+
+# Stage 2 - Prepare Language data in to kaldi-required format
+if [ $stage -le 2]; then
+  $BIN_DIR/lang/append_lexicon.sh

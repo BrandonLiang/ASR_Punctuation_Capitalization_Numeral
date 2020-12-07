@@ -4,8 +4,43 @@ import pandas as pd
 import sys
 import logging
 import numpy as np
+import random
+import csv
 
 np.random.seed(10)
+random.seed(10)
+
+# given a list of indices (sorted), split into train, dev, test with the given ratio, where the indices in each partition is also SORTED!
+# for simplicity, we now use a 8:1:1 ratio
+def split_indices(indices):
+  train = []
+  dev = []
+  test = []
+  index = 0
+  size = len(indices)
+  while index < size:
+    dev_key = random.randint(0, 9)
+    test_key = random.randint(0, 9)
+    while dev_key == test_key:
+      test_key = random.randint(0, 9)
+
+    dev_index = index + dev_key
+    test_index = index + test_key
+    train_indices = list(range(index, index + 10))
+    train_indices = list(filter(lambda x: x != dev_index and x != test_index, train_indices))
+
+    train.extend(train_indices)
+    dev.append(dev_index)
+    test.append(test_index)
+
+    index += 10 # increment by 10
+
+    leftover = size - index
+    if leftover < 10:
+      train.extend(list(range(index, index + leftover)))
+      break
+
+  return np.array(train), np.array(dev), np.array(test)
 
 def split(data_location, target_parent_dir, delimiter = '\t', train_percent = 0.8, dev_percent = 0.1):
   test_percent = 1 - train_percent - dev_percent
@@ -34,17 +69,14 @@ def split(data_location, target_parent_dir, delimiter = '\t', train_percent = 0.
   print(df.shape[0])
 
   # split
-  # https://stackoverflow.com/questions/38250710/how-to-split-data-into-3-sets-train-validation-and-test
-  perm = np.random.permutation(df.index)
+  # need to keep the sorted order - kaldi requirement
   size = df.shape[0]
-  assert size == len(df.index)
+  train_indices, dev_indices, test_indices = split_indices(df.index)
+  assert size == len(train_indices) + len(dev_indices) + len(test_indices), (size, len(train_indices), len(dev_indices), len(test_indices))
 
-  train_end = int(train_percent * size)
-  dev_end = int(dev_percent * size) + train_end
-
-  train_df = df.iloc[perm[:train_end]]
-  dev_df = df.iloc[perm[train_end: dev_end]]
-  test_df = df.iloc[perm[dev_end:]]
+  train_df = df.iloc[train_indices]
+  dev_df = df.iloc[dev_indices]
+  test_df = df.iloc[test_indices]
 
   logger.info(f'Train Size: {train_df.shape[0]}, Dev Size: {dev_df.shape[0]}, Test Size: {test_df.shape[0]}')
 

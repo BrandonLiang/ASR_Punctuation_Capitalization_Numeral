@@ -19,7 +19,13 @@ NJ=2
 #echo "splitting"
 ## split the created text, wav.scp, utt2spk from all to train, dev, test, using utt-id in all files
 ## 80-10-10 split
+## ! make sure $dir/{text, utt2spk, wav.scp} are all sorted
 #python $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION/all --target_parent_dir $KALDI_DATA_LOCATION
+
+#echo "removing escaped double quote in \$dir/text"
+#for dir in train dev test; do
+#  sed 's/\ \"/\ /g' $KALDI_DATA_LOCATION/$dir/text | sed 's/\"$//g' > $KALDI_DATA_LOCATION/$dir/tmp; mv $KALDI_DATA_LOCATION/$dir/tmp $KALDI_DATA_LOCATION/$dir/text
+#done
 
 cd $KALDI_TEDLIUM
 
@@ -38,14 +44,9 @@ for dir in train dev test; do
   mkdir -p $CUR_KALDI_MFCC_DIR
   mkdir -p $CUR_KALDI_MFCC_LOG_DIR
 
-  # sort utt2spk, wav.scp & text in each partition
-  sort -o $CUR_KALDI_UTT2SPK
-  sort -o $CUR_KALDI_LOCATION/wav.scp
-  sort -o $CUR_KALDI_LOCATION/text
-
   # create spk2utt, feats.scp & cmvn.scp after train,dev,test split, since cmvn.scp is indexed by speaker-id, not utt-id
-  echo "creating spk2utt"
-  $KALDI_TEDLIUM/utils/utt2spk_to_spk2utt.pl $CUR_KALDI_UTT2SPK > $CUR_KALDI_SPK2UTT
+  #echo "creating spk2utt"
+  #$KALDI_TEDLIUM/utils/utt2spk_to_spk2utt.pl $CUR_KALDI_UTT2SPK > $CUR_KALDI_SPK2UTT
   # http://www.inf.ed.ac.uk/teaching/courses/asr/2019-20/lab6.pdf
   echo "creating feats.scp"
   $KALDI_TEDLIUM/steps/make_mfcc.sh -nj $NJ --cmd $KALDI_TEDLIUM/"$train_cmd" $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
@@ -53,10 +54,10 @@ for dir in train dev test; do
   $KALDI_TEDLIUM/steps/compute_cmvn_stats.sh $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
 done
 
-# validate prepped data directory
-for dir in train dev test; do
-  echo "Validating $KALDI_DATA_LOCATION/$dir"
-  $KALDI_TEDLIUM/utils/validate_data_dir.sh $KALDI_DATA_LOCATION/$dir
-  # fix
-  # $KALDI_TEDLIUM/utils/fix_data_dir.sh $KALDI_DATA_LOCATION/$dir
-done
+## validate prepped data directory
+#for dir in train dev test; do
+#  echo "Validating $KALDI_DATA_LOCATION/$dir"
+#  $KALDI_TEDLIUM/utils/validate_data_dir.sh $KALDI_DATA_LOCATION/$dir
+#  # fix
+#  # $KALDI_TEDLIUM/utils/fix_data_dir.sh $KALDI_DATA_LOCATION/$dir
+#done
