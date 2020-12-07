@@ -19,15 +19,16 @@ source "$ENV"
 # 2. update utt_id (format: spk_utt) in scripts and rename wav file to match spk_utt
 # 2.1 also accumulate utt_id -> wav file path for wav.scp & utt2spk
 # 3. create text file to use spk_utt (sorted)
+# they are tab- or bar-delimited, easier for train, dev, test splitting
 
 mkdir -p $KALDI_DATA_LOCATION/all
-KALDI_TEXT_FILE=$KALDI_DATA_LOCATION/all/text
-KALDI_WAV_SCP=$KALDI_DATA_LOCATION/all/wav.scp
-KALDI_UTT2SPK=$KALDI_DATA_LOCATION/all/utt2spk
+KALDI_TEXT_FILE_TSV=$KALDI_DATA_LOCATION/all/text.tsv
+KALDI_WAV_SCP_BSV=$KALDI_DATA_LOCATION/all/wav.scp.bsv
+KALDI_UTT2SPK_BSV=$KALDI_DATA_LOCATION/all/utt2spk.bsv
 # these 3 files need to be sorted
-touch $KALDI_TEXT_FILE
-touch $KALDI_WAV_SCP
-touch $KALDI_UTT2SPK
+touch $KALDI_TEXT_FILE_TSV
+touch $KALDI_WAV_SCP_BSV
+touch $KALDI_UTT2SPK_BSV
 
 UPDATED_WAV_LOCATION=$RAW_DATA_LOCATION/wav
 mkdir -p $UPDATED_WAV_LOCATION
@@ -58,9 +59,9 @@ for CHANNEL in 0 1 2; do
     UTT=${NSC_UTT:5:4} # last 4 char
     mv $wave_file $UPDATED_WAV_LOCATION/${SPK}-${UTT}.wav
     # in the process, also accumulate utt_id -> wav file path for wav.scp
-    echo "${SPK}-${UTT} $UPDATED_WAV_LOCATION/${SPK}-${UTT}.wav">> $KALDI_WAV_SCP
+    echo "${SPK}-${UTT}|$UPDATED_WAV_LOCATION/${SPK}-${UTT}.wav">> $KALDI_WAV_SCP_BSV
     # also accumulate utt2spk file
-    echo "${SPK}-${UTT} ${SPK}" >> $KALDI_UTT2SPK
+    echo "${SPK}-${UTT}|${SPK}" >> $KALDI_UTT2SPK_BSV
 
   # make sure wav.scp & utt2spk are sorted
   # should already be sorted - double check!
@@ -70,7 +71,7 @@ for CHANNEL in 0 1 2; do
   # the first element on each line is the utt_id
   # the second element on each line is the transcription of each utterance
   for text_file in $LOCATION/SCRIPT/*.TXT; do
-    cat $text_file >> $KALDI_TEXT_FILE
+    cat $text_file >> $KALDI_TEXT_FILE_TSV
   done
 
   # make sure text is sorted
