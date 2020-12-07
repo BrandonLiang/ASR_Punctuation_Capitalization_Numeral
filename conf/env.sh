@@ -10,3 +10,6 @@ KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 # Run locally:
 export train_cmd=run.pl
 export decode_cmd=run.pl
+
+# Be careful when you sort that you have the shell variable LC_ALL defined as "C"
+export LC_ALL=C

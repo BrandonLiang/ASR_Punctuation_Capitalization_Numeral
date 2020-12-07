@@ -16,14 +16,16 @@ source "$ENV"
 # number of jobs in parallel
 NJ=2
 
-# split the created text, wav.scp, utt2spk from all to train, dev, test, using utt-id in all files
-# 80-10-10 split
-echo "Working on $dir"
-python $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION/all --target_parent_dir $KALDI_DATA_LOCATION
+#echo "splitting"
+## split the created text, wav.scp, utt2spk from all to train, dev, test, using utt-id in all files
+## 80-10-10 split
+#python $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION/all --target_parent_dir $KALDI_DATA_LOCATION
 
+cd $KALDI_TEDLIUM
 
 # then, create spk2utt, feats.scp & cmvn.scp in all 3 partitions
 for dir in train dev test; do
+  echo "Working on $dir"
   CUR_DATA_DIR=$KALDI_DATA_LOCATION/$dir
   mkdir -p $CUR_DATA_DIR
 
@@ -36,18 +38,25 @@ for dir in train dev test; do
   mkdir -p $CUR_KALDI_MFCC_DIR
   mkdir -p $CUR_KALDI_MFCC_LOG_DIR
 
+  # sort utt2spk, wav.scp & text in each partition
+  sort -o $CUR_KALDI_UTT2SPK
+  sort -o $CUR_KALDI_LOCATION/wav.scp
+  sort -o $CUR_KALDI_LOCATION/text
+
   # create spk2utt, feats.scp & cmvn.scp after train,dev,test split, since cmvn.scp is indexed by speaker-id, not utt-id
   echo "creating spk2utt"
-  $KALDI_ROOT/utils/utt2spk_to_spk2utt.pl $CUR_KALDI_UTT2SPK > $CUR_KALDI_SPK2UTT
+  $KALDI_TEDLIUM/utils/utt2spk_to_spk2utt.pl $CUR_KALDI_UTT2SPK > $CUR_KALDI_SPK2UTT
   # http://www.inf.ed.ac.uk/teaching/courses/asr/2019-20/lab6.pdf
   echo "creating feats.scp"
-  $KALDI_ROOT/steps/make_mfcc.sh -nj $NJ --cmd "$train_cmd" $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
+  $KALDI_TEDLIUM/steps/make_mfcc.sh -nj $NJ --cmd $KALDI_TEDLIUM/"$train_cmd" $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
   echo "creating cmvn.scp"
-  $KALDI_ROOT/steps/compute_cmvn_stats.sh $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
+  $KALDI_TEDLIUM/steps/compute_cmvn_stats.sh $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
 done
 
-# validate preped data directory
+# validate prepped data directory
 for dir in train dev test; do
   echo "Validating $KALDI_DATA_LOCATION/$dir"
-  $KALDI_ROOT/utils/validate_data_dir.sh $KALDI_DATA_LOCATION/$dir
+  $KALDI_TEDLIUM/utils/validate_data_dir.sh $KALDI_DATA_LOCATION/$dir
+  # fix
+  # $KALDI_TEDLIUM/utils/fix_data_dir.sh $KALDI_DATA_LOCATION/$dir
 done

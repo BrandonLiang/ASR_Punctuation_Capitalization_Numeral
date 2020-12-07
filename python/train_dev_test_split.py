@@ -27,19 +27,17 @@ def split(data_location, target_parent_dir, delimiter = '\t', train_percent = 0.
   df_utt2spk = pd.read_csv(utt2spk_bsv, delimiter = '|', header = None, names = ["utt_id", "spk_id"], dtype = str)
   df_wav_scp = pd.read_csv(wav_scp_bsv, delimiter = '|', header = None, names = ["utt_id", "wav_path"], dtype = str)
 
-  assert df_text.utt_id == df_utt2spk.utt_id
-  assert df_text.utt_id == df_wav_scp.utt_id
-
-  df = pd.merge(df_text, df_utt2spk, how = 'left', on = "utt_id")
+  df = pd.merge(df_text, df_utt2spk, how = 'inner', on = "utt_id")
   df = pd.merge(df, df_wav_scp, how = 'left', on = "utt_id")
 
   print(df.head())
+  print(df.shape[0])
 
   # split
   # https://stackoverflow.com/questions/38250710/how-to-split-data-into-3-sets-train-validation-and-test
   perm = np.random.permutation(df.index)
   size = df.shape[0]
-  assert size = len(df.index)
+  assert size == len(df.index)
 
   train_end = int(train_percent * size)
   dev_end = int(dev_percent * size) + train_end
@@ -70,5 +68,7 @@ if __name__ == "__main__":
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--data_location", default = None, type = str, help = "NSC SCRIPT Location to preprocess")
-  parser.add_argument("--target_parent_dir", default = None, type = str, help = "target parent directory where train, dev, test sit"
+  parser.add_argument("--target_parent_dir", default = None, type = str, help = "target parent directory where train, dev, test sit")
   args = parser.parse_args()
+
+  split(args.data_location, args.target_parent_dir)

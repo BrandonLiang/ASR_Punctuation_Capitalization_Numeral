@@ -33,12 +33,10 @@ touch $KALDI_UTT2SPK_BSV
 UPDATED_WAV_LOCATION=$RAW_DATA_LOCATION/wav
 mkdir -p $UPDATED_WAV_LOCATION
 
-# Be careful when you sort that you have the shell variable LC_ALL defined as "C"
-export LC_ALL=C
-
 CUR_DIR=`pwd`
 
-for CHANNEL in 0 1 2; do
+# only use CHANNEL0 !
+for CHANNEL in 0 ; do
   LOCATION=$RAW_DATA_LOCATION/CHANNEL${CHANNEL}
   ## 1. unzip
   #cd $LOCATION
@@ -53,7 +51,7 @@ for CHANNEL in 0 1 2; do
 
   echo "2. Modifying WAVE file names"
   # modify each wave file name to match the utt id's in each script according to kaldi convention
-  for wave_file in $LOCATION/WAVE/*/*/*.WAV; 
+  for wave_file in $LOCATION/WAVE/*/*/*.WAV; do
     NSC_UTT=`basename $wave_file`
     SPK=${NSC_UTT:0:5} # first 5 char
     UTT=${NSC_UTT:5:4} # last 4 char
@@ -62,6 +60,7 @@ for CHANNEL in 0 1 2; do
     echo "${SPK}-${UTT}|$UPDATED_WAV_LOCATION/${SPK}-${UTT}.wav">> $KALDI_WAV_SCP_BSV
     # also accumulate utt2spk file
     echo "${SPK}-${UTT}|${SPK}" >> $KALDI_UTT2SPK_BSV
+  done
 
   # make sure wav.scp & utt2spk are sorted
   # should already be sorted - double check!
