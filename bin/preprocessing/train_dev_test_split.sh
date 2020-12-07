@@ -14,7 +14,7 @@ ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
 # number of jobs in parallel
-NJ=2
+NJ=4
 
 #echo "splitting"
 ## split the created text, wav.scp, utt2spk from all to train, dev, test, using utt-id in all files
@@ -26,8 +26,6 @@ NJ=2
 #for dir in train dev test; do
 #  sed 's/\ \"/\ /g' $KALDI_DATA_LOCATION/$dir/text | sed 's/\"$//g' > $KALDI_DATA_LOCATION/$dir/tmp; mv $KALDI_DATA_LOCATION/$dir/tmp $KALDI_DATA_LOCATION/$dir/text
 #done
-
-cd $KALDI_TEDLIUM
 
 # then, create spk2utt, feats.scp & cmvn.scp in all 3 partitions
 for dir in train dev test; do
@@ -49,9 +47,9 @@ for dir in train dev test; do
   #$KALDI_TEDLIUM/utils/utt2spk_to_spk2utt.pl $CUR_KALDI_UTT2SPK > $CUR_KALDI_SPK2UTT
   # http://www.inf.ed.ac.uk/teaching/courses/asr/2019-20/lab6.pdf
   echo "creating feats.scp"
-  $KALDI_TEDLIUM/steps/make_mfcc.sh -nj $NJ --cmd $KALDI_TEDLIUM/"$train_cmd" $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
+  $SCRIPT_DIR/steps/make_mfcc.sh --cmd "run.pl" --nj $NJ $CUR_DATA_DIR $CUT_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
   echo "creating cmvn.scp"
-  $KALDI_TEDLIUM/steps/compute_cmvn_stats.sh $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
+  $SCRIPT_DIR/steps/compute_cmvn_stats.sh $CUR_DATA_DIR $CUR_KALDI_MFCC_LOG_DIR $CUR_KALDI_MFCC_DIR
 done
 
 ## validate prepped data directory
