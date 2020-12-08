@@ -14,7 +14,7 @@ BIN_DIR=$APP_HOME/bin
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
-stage=2
+stage=3
 
 # Stage 1 - Preprocess data in to kaldi-required format
 # Following http://kaldi-asr.org/doc/data_prep.html
@@ -26,5 +26,7 @@ fi
 
 # Stage 2 - Prepare Language data in to kaldi-required format
 if [ $stage -le 2]; then
-  $BIN_DIR/lang/append_lexicon.sh # append capitalization, punctuation & numeral pronunciation information into lexicon for data/local/dict/lexicon.txt
+  $BIN_DIR/lang/append_lexicon.sh # append capitalization, punctuation & numeral pronunciation information into lexicon for $KALDI_DATA_LOCATION/local/dict/lexicon.txt
+  $BIN_DIR/lang/cp_dict_to_data.sh # copy the generated dictionary directory above into $KALDI_DATA_LOCATION/local/dict
+  $BIN_DIR/lang/create_lang_dir.sh # create the "lang" directory using Kaldi's utils/prepare_lang.sh
 fi
