@@ -27,3 +27,4 @@ fi
 # Stage 2 - Prepare Language data in to kaldi-required format
 if [ $stage -le 2]; then
   $BIN_DIR/lang/append_lexicon.sh # append capitalization, punctuation & numeral pronunciation information into lexicon for data/local/dict/lexicon.txt
+fi
