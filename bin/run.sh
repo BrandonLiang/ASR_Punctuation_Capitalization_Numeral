@@ -17,6 +17,7 @@ source "$ENV"
 stage=2
 
 # Stage 1 - Preprocess data in to kaldi-required format
+# Following http://kaldi-asr.org/doc/data_prep.html
 if [ $stage -le 1 ]; then
   $BIN_DIR/preprocessing/keep_original_script.sh # take only the original transcript - includes punctuation, capitalization & numeral
   $BIN_DIR/preprocessing/data_prep.sh # modify utt_id in to kaldi requirement, create text, utt2spk & wav.scp
