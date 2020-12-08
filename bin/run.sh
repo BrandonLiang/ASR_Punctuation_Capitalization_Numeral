@@ -16,12 +16,12 @@ source "$ENV"
 
 stage=3
 
-# Stage 1 - Preprocess data in to kaldi-required format
+# Stage 1 - Preprocess data in to kaldi-required format & Feature Extraction (MFCC & CMVN stats)
 # Following http://kaldi-asr.org/doc/data_prep.html
 if [ $stage -le 1 ]; then
   $BIN_DIR/preprocessing/keep_original_script.sh # take only the original transcript - includes punctuation, capitalization & numeral
   $BIN_DIR/preprocessing/data_prep.sh # modify utt_id in to kaldi requirement, create text, utt2spk & wav.scp
-  $BIN_DIR/preprocessing/train_dev_test_split.sh # split text, utt2spk & wav.scp into train, dev, test (8:1:1), then create spk2utt, mfcc features and cmvn stats in each partition
+  $BIN_DIR/preprocessing/train_dev_test_split.sh # split text, utt2spk & wav.scp into train, dev, test (8:1:1), then create spk2utt, mfcc features and cmvn stats in each partition (feature extraction)
 fi
 
 # Stage 2 - Prepare Language data in to kaldi-required format
