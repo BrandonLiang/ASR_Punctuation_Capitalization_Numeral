@@ -13,6 +13,10 @@ PYTHON_DIR=$APP_HOME/python
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
+for FILE in nonsilence_phones.txt silence_phones.txt optional_silence.txt; do
+  dos2unix $APP_HOME/nsc_dict_data/local/dict/$FILE
+done
+
 rm -fr $KALDI_DATA_LOCATION/local/*
 mkdir -p $KALDI_DATA_LOCATION/local/
 cp -r $APP_HOME/nsc_dict_data/local/dict $KALDI_DATA_LOCATION/local/
