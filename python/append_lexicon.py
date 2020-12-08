@@ -141,17 +141,19 @@ def main(default_lexicon, numeral_lexicon_base, k, numeral_lexicon_dumb, output_
     lexicons.extend(add_capitalize(line))
   f.close()
 
-  # 2.1 add inferred numeral lexicons from base numeral lexicons
-  lexicons.extend(infer_numeral_lexicons(numeral_lexicon_base, k))
-
-  # 2.2 add dumb numeral lexicons
-  lexicons.extend(attach_dumb_numeral_lexicons(numeral_lexicon_dumb))
-
-  # 3.1 attach punctuations to the end of all possible tokens
+  # 2.1 attach punctuations to the end of all possible tokens
   lexicons = attach_punctuations(lexicons)
 
-  # 3.2 add punctuations as standalone tokens with silence phones
+  # 2.2 add punctuations as standalone tokens with silence phones
   lexicons.extend(silence_phones(punctuations))
+
+  # 3.1 add inferred numeral lexicons from base numeral lexicons
+  lexicons.extend(infer_numeral_lexicons(numeral_lexicon_base, k))
+
+  # 3.2 add dumb numeral lexicons
+  lexicons.extend(attach_dumb_numeral_lexicons(numeral_lexicon_dumb))
+
+  lexicons = set(lexicons)
 
   with open(output_lexicon, 'w') as f:
     for line in lexicons:
