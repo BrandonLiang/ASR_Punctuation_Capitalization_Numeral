@@ -14,7 +14,6 @@ ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
 K=10000 # threshold for numbers in numeral lexicon
-K=200 # just for testing, will change!
 
 python $PYTHON_DIR/append_lexicon.py \
   --default_lexicon_location $APP_HOME/tedlium_dict_data/local/dict/lexicon.txt \

@@ -87,10 +87,7 @@ def infer_numeral_lexicons(numeral_lexicon_base, k = 10000):
     elif number < 1000:
       first_digit = number_string[0]
       if number % 100 != 0:
-        if int(number_string[1:]) < 10:
-          key = number_string[-1]
-        else:
-          key = number_string[1:]
+        key = str(int(number_string[1:]))
         tmp = combine2(mapping[first_digit], mapping[key], sep = " " + extra_word_mapping["hundred"] + " " + extra_word_mapping["and"] + " ")
 
         if first_digit == "1":
@@ -103,7 +100,19 @@ def infer_numeral_lexicons(numeral_lexicon_base, k = 10000):
       mapping[number_string] = tmp
 
     elif number < 10000:
-      pass
+      first_digit = number_string[0]
+      if number % 1000 != 0:
+        key = str(int(number_string[1:]))
+        tmp = combine2(mapping[first_digit], mapping[key], sep = " " + extra_word_mapping["thousand"] + " ")
+
+        if first_digit == "1":
+          tmp.extend(combine2([extra_word_mapping["a"]], mapping[key], sep = " " + extra_word_mapping["thousand"] + " "))
+      else: # thousands
+        tmp = combine2(mapping[first_digit], [extra_word_mapping["thousand"]])
+
+        if first_digit == "1":
+          tmp.extend(combine2([extra_word_mapping["a"]], [extra_word_mapping["thousand"]]))
+      mapping[number_string] = tmp
 
     # append to return
     for pronun in mapping[number_string]:
