@@ -23,4 +23,4 @@ if __name__ == "__main__":
   parser.add_argument("--output_location", default = None, type = str, help = "output location")
   args = parser.parse_args()
 
-  main(args.text_location)
+  main(args.text_location, args.output_location)

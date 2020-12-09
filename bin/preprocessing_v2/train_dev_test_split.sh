@@ -17,7 +17,7 @@ echo "splitting"
 # split the created text, wav.scp, utt2spk from all to train, dev, test, using utt-id in all files
 # 80-10-10 split
 # ! make sure $dir/{text, utt2spk, wav.scp} are all sorted
-python $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION_TOKENIZED/all --target_parent_dir $KALDI_DATA_LOCATION_TOKENIZED
+python3 $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION_TOKENIZED/all --target_parent_dir $KALDI_DATA_LOCATION_TOKENIZED
 
 echo "removing escaped double quote in \$dir/text"
 for dir in train dev test; do

@@ -17,6 +17,6 @@ source "$ENV"
 # for appending numeral pronunciation to the lexicon
 K=10000 # threshold
 
-python $PYTHON_DIR/number_generator.py \
+python3 $PYTHON_DIR/number_generator.py \
   --k $K \
   --output_location $APP_HOME/nsc_dict_data/local/dict_v2/numbers.txt
