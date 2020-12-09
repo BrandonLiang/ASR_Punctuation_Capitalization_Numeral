@@ -3,8 +3,8 @@
 # Note: to use 'greadlink', you need to have coreutils installed on your MacOS ("brew install coreutils")
 #       if you are on Linux, use 'readlink' instead
 
-SCRIPT=`greadlink -f "$0"`
-#SCRIPT=`readlink -f "$0"`
+#SCRIPT=`greadlink -f "$0"`
+SCRIPT=`readlink -f "$0"`
 SCRIPT_DIR=`dirname "$SCRIPT"`
 APP_HOME="$SCRIPT_DIR"/../..
 
@@ -18,11 +18,11 @@ mkdir -p $KALDI_MODEL_LOCATION
 # Monophone Training & Alignment
 # https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
 
-# 1. take subset of data
-$KALDI_TEDLIUM/utils/subset_data_dir.sh \
-  --first $KALDI_DATA_LOCATION/train \
-  10000 \
-  $KALDI_DATA_LOCATION/train_10k
+## 1. take subset of data
+#$KALDI_TEDLIUM/utils/subset_data_dir.sh \
+#  --first $KALDI_DATA_LOCATION/train \
+#  10000 \
+#  $KALDI_DATA_LOCATION/train_10k
 
 # 2. train monophone
 $KALDI_TEDLIUM/steps/train_mono.sh \

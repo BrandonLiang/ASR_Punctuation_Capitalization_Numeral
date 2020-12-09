@@ -1,1 +1,1 @@
-/Users/brandonliang/src/kaldi/egs/tedlium/s5_r3/cmd.sh
+/home/xl2891/src/kaldi/egs/tedlium/s5_r3/cmd.sh
