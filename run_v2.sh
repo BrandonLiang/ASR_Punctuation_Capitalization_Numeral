@@ -73,4 +73,9 @@ if [ $stage -le 3 ]; then
   # - align SAT triphones with FMLLR
   $BIN_DIR/monophone_triphone_training_alignment_v2/triphone_training_alignment.sh
 
+  # - make graph from FMLLR-aligned SAT triphones
+  # - decode
+  # - rescore the lattices with ConstARPA format LM
+  $BIN_DIR/monophone_triphone_training_alignment_v2/decode_sat_triphone.sh
+
 fi
