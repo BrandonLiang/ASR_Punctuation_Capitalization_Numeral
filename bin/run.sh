@@ -14,19 +14,61 @@ BIN_DIR=$APP_HOME/bin
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
-stage=3
+stage=4
 
 # Stage 1 - Preprocess data in to kaldi-required format & Feature Extraction (MFCC & CMVN stats)
 # Following http://kaldi-asr.org/doc/data_prep.html
 if [ $stage -le 1 ]; then
-  $BIN_DIR/preprocessing/keep_original_script.sh # take only the original transcript - includes punctuation, capitalization & numeral
-  $BIN_DIR/preprocessing/data_prep.sh # modify utt_id in to kaldi requirement, create text, utt2spk & wav.scp
-  $BIN_DIR/preprocessing/train_dev_test_split.sh # split text, utt2spk & wav.scp into train, dev, test (8:1:1), then create spk2utt, mfcc features and cmvn stats in each partition (feature extraction)
+
+  # - take only the original transcript that includes punctuation, capitalization & numeral
+  $BIN_DIR/preprocessing/keep_original_script.sh
+
+  # - modify utt_id in text and wav file names into kaldi requirement
+  # - concatenate all transcripts together into text
+  # - create utt2spk & wav.scp
+  $BIN_DIR/preprocessing/data_prep.sh
+
+  # - split text, utt2spk & wav.scp into train, dev, test (8:1:1 ratio)
+  # - create spk2utt
+  # - feature extraction: extract mfcc features and cmvn stats in each split
+  $BIN_DIR/preprocessing/train_dev_test_split.sh
+
 fi
 
 # Stage 2 - Prepare Language data in to kaldi-required format
-if [ $stage -le 2]; then
-  $BIN_DIR/lang/append_lexicon.sh # append capitalization, punctuation & numeral pronunciation information into lexicon for $KALDI_DATA_LOCATION/local/dict/lexicon.txt
-  $BIN_DIR/lang/cp_dict_to_data.sh # copy the generated dictionary directory above into $KALDI_DATA_LOCATION/local/dict
-  $BIN_DIR/lang/create_lang_dir.sh # create the "lang" directory using Kaldi's utils/prepare_lang.sh
+# Following http://kaldi-asr.org/doc/data_prep.html
+if [ $stage -le 2 ]; then
+
+  # - append capitalization, punctuation & numeral pronunciation information into lexicon dictionary for $KALDI_DATA_LOCATION/local/dict/lexicon.txt
+  $BIN_DIR/lang/append_lexicon.sh
+
+  # - copy the generated dictionary directory above into $KALDI_DATA_LOCATION/local/dict
+  $BIN_DIR/lang/cp_dict_to_data.sh
+
+  # - create the "lang" directory using Kaldi's utils/prepare_lang.sh
+  $BIN_DIR/lang/create_lang_dir.sh
+
+fi
+
+# Stage 3 - Monophone & Triphone Training & Alignment
+# Following https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
+if [ $stage -le 3 ]; then
+
+  # Follwing https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html#monophone-training-and-alignment
+  # - take subset (10k) of training data for monophone training
+  # - train monophones
+  # - alignment monophones
+  $BIN_DIR/monophone_triphone_training_alignment/monophone_training_alignment.sh
+
+  # Following https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html#triphone-training-and-alignment
+  # - train delta-based triphones
+  # - align delta-based triphones
+  # - train delta + delta-delta triphones
+  # - align delta + delta-delta triphones
+  # - train LDA-MLLT triphones
+  # - align LDA-MLLT triphones with FMLLR
+  # - train SAT triphones
+  # - align SAT triphones with FMLLR
+  $BIN_DIR/monophone_triphone_training_alignment/triphone_training_alignment.sh
+
 fi
