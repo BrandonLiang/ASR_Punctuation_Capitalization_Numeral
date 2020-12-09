@@ -15,4 +15,8 @@ source "$ENV"
 
 # Create the "lang" directory
 # http://kaldi-asr.org/doc/data_prep.html
-$KALDI_TEDLIUM/utils/prepare_lang.sh $KALDI_DATA_LOCATION/local/dict "<UNK>" $KALDI_DATA_LOCATION/local/lang $KALDI_DATA_LOCATION/lang
+$KALDI_TEDLIUM/utils/prepare_lang.sh \
+  $KALDI_DATA_LOCATION/local/dict \
+  "<UNK>" \
+  $KALDI_DATA_LOCATION/local/lang \
+  $KALDI_DATA_LOCATION/lang
