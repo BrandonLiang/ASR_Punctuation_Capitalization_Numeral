@@ -46,7 +46,11 @@ if [ $stage -le 2 ]; then
   $BIN_DIR/lang/cp_dict_to_data.sh
 
   # - create the "lang" directory using Kaldi's utils/prepare_lang.sh
-  $BIN_DIR/lang/create_lang_dir.sh
+  # - creates L.fst & L_disambig.fst
+  $BIN_DIR/lang/create_lang_dir_L_fst.sh
+
+  # - creates G.fst using ngram model (n = 2) & lm.arpa
+  $BIN_DIR/lang/train_lm_arpa_G_fst.sh
 
 fi
 

@@ -13,6 +13,9 @@ KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 # number of jobs in parallel
 NJ=8
 
+# want bigram for LM
+LM_ORDER=2
+
 BOOST_SILENCE=1.25
 
 # kaldi cmd.sh
