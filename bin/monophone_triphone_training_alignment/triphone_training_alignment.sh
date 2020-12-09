@@ -18,33 +18,33 @@ mkdir -p $KALDI_MODEL_LOCATION
 # Triphone Training & Alignment
 # https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
 
-# 1. train delta-based triphones
-$KALDI_TEDLIUM/steps/train_deltas.sh \
-  --boost-silence $BOOST_SILENCE \
-  --cmd run.pl \
-  2000 10000 \
-  $KALDI_DATA_LOCATION/train \
-  $KALDI_DATA_LOCATION/lang \
-  $KALDI_MODEL_LOCATION/mono_ali \
-  $KALDI_MODEL_LOCATION/tri1 || exit 1;
+## 1. train delta-based triphones
+#$KALDI_TEDLIUM/steps/train_deltas.sh \
+#  --boost-silence $BOOST_SILENCE \
+#  --cmd run.pl \
+#  2000 10000 \
+#  $KALDI_DATA_LOCATION/train \
+#  $KALDI_DATA_LOCATION/lang \
+#  $KALDI_MODEL_LOCATION/mono_ali \
+#  $KALDI_MODEL_LOCATION/tri1 || exit 1;
 
-# 2. align delta-based triphones
-$KALDI_TEDLIUM/steps/align_si.sh \
-  --nj $NJ \
-  --cmd run.pl \
-  $KALDI_DATA_LOCATION/train \
-  $KALDI_DATA_LOCATION/lang \
-  $KALDI_MODEL_LOCATION/tri1 \
-  $KALDI_MODEL_LOCATION/tri1_ali || exit 1;
+## 2. align delta-based triphones
+#$KALDI_TEDLIUM/steps/align_si.sh \
+#  --nj $NJ \
+#  --cmd run.pl \
+#  $KALDI_DATA_LOCATION/train \
+#  $KALDI_DATA_LOCATION/lang \
+#  $KALDI_MODEL_LOCATION/tri1 \
+#  $KALDI_MODEL_LOCATION/tri1_ali || exit 1;
 
-# 3. train delta + delta-delta triphones
-$KALDI_TEDLIUM/steps/train_deltas.sh \
-  --cmd run.pl \
-  2500 15000 \
-  $KALDI_DATA_LOCATION/train \
-  $KALDI_DATA_LOCATION/lang \
-  $KALDI_MODEL_LOCATION/tri1_ali \
-  $KALDI_MODEL_LOCATION/tri2a || exit 1;
+## 3. train delta + delta-delta triphones
+#$KALDI_TEDLIUM/steps/train_deltas.sh \
+#  --cmd run.pl \
+#  2500 15000 \
+#  $KALDI_DATA_LOCATION/train \
+#  $KALDI_DATA_LOCATION/lang \
+#  $KALDI_MODEL_LOCATION/tri1_ali \
+#  $KALDI_MODEL_LOCATION/tri2a || exit 1;
 
 # 4. align delta + delta-delta triphones
 $KALDI_TEDLIUM/steps/align_si.sh \
@@ -54,7 +54,7 @@ $KALDI_TEDLIUM/steps/align_si.sh \
   $KALDI_DATA_LOCATION/train \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri2a \
-  $KALDI_MODEL_LCATION/tri2a_ali || exit 1;
+  $KALDI_MODEL_LOCATION/tri2a_ali || exit 1;
 
 # 5. train LDA-MLLT triphones
 $KALDI_TEDLIUM/steps/train_lda_mllt.sh \

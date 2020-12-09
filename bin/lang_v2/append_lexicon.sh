@@ -15,7 +15,7 @@ source "$ENV"
 
 K=10000 # threshold for numbers in numeral lexicon
 
-python $PYTHON_DIR/append_lexicon_punct_tokenized.py \
+python3 $PYTHON_DIR/append_lexicon_punct_tokenized.py \
   --default_lexicon_location $APP_HOME/tedlium_dict_data/local/dict/lexicon.txt \
   --numeral_lexicon_base_location $APP_HOME/nsc_dict_data/local/dict_v2/numeral_lexicon_base.bsv \
   --k $K \
