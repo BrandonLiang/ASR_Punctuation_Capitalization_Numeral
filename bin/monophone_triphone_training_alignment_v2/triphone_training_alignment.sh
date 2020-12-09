@@ -54,7 +54,7 @@ $KALDI_TEDLIUM/steps/align_si.sh \
   $KALDI_DATA_LOCATION_TOKENIZED/train \
   $KALDI_DATA_LOCATION_TOKENIZED/lang \
   $KALDI_MODEL_LOCATION_TOKENIZED/tri2a \
-  $KALDI_MODEL_LCATION/tri2a_ali || exit 1;
+  $KALDI_MODEL_LOCATION/tri2a_ali || exit 1;
 
 # 5. train LDA-MLLT triphones
 $KALDI_TEDLIUM/steps/train_lda_mllt.sh \
