@@ -16,7 +16,7 @@ source "$ENV"
 mkdir -p $KALDI_MODEL_LOCATION
 
 # Monophone Training & Alignment
-# https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
+# Following: https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
 
 ## 1. take subset of data
 #$KALDI_TEDLIUM/utils/subset_data_dir.sh \
