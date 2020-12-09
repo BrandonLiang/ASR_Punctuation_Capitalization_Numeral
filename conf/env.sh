@@ -14,7 +14,7 @@ KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 NJ=8
 
 # want bigram for LM
-LM_ORDER=2
+LM_ORDER=4
 
 BOOST_SILENCE=1.25
 
