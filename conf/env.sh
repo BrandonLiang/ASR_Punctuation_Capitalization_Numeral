@@ -8,7 +8,7 @@ KALDI_ROOT=$HOME/src/kaldi
 KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 
 # number of jobs in parallel
-NJ=4
+NJ=16
 
 BOOST_SILENCE=1.25
 
