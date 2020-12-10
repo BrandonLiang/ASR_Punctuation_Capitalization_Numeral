@@ -10,7 +10,7 @@ APP_HOME="$SCRIPT_DIR"
 
 CONF=$APP_HOME/conf
 PYTHON_DIR=$APP_HOME/python
-BIN_DIR=$APP_HOME/bin
+BIN_DIR=$APP_HOME/bin_v2
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
