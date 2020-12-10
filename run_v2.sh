@@ -93,7 +93,8 @@ if [ $STAGE -le 4 ]; then
   # - run RNNLM (LSTM)
   $BIN_DIR/tdnn_rnn_lm_v2/run_rnnlm.sh
 
-  # - score the decoding
+  # - rescore the lattices from TDNN using LSTM RNN LM
+  $BIN_DIR/tdnn_rnn_lm_v2/rescore_lattices.sh
 
   # - run results to get WER
 
