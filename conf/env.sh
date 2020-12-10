@@ -10,6 +10,8 @@ KALDI_MODEL_LOCATION_TOKENIZED=$KALDI_DATA_LOCATION_TOKENIZED/exp
 KALDI_ROOT=$HOME/src/kaldi
 KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 
+PRETRAINED_TEDLIUM=$HOME/src/pretrained_tedlium_s5_r3/exp/rnnlm_lstm_tdnn_a_averaged/final.raw
+
 # number of jobs in parallel
 NJ=8
 
