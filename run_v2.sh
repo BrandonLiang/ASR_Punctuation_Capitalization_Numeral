@@ -14,9 +14,9 @@ BIN_DIR=$APP_HOME/bin
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
-stage=4
+stage=3
 
-# Stage 1 - Preprocess data in to kaldi-required format & Feature Extraction (MFCC & CMVN stats)
+# Stage 1 - Data Preparation: Preprocess data in to kaldi-required format & Feature Extraction (MFCC & CMVN stats)
 # Following http://kaldi-asr.org/doc/data_prep.html
 if [ $stage -le 1 ]; then
 
