@@ -14,11 +14,11 @@ BIN_DIR=$APP_HOME/bin
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 
-stage=3
+STAGE=4
 
 # Stage 1 - Data Preparation: Preprocess data in to kaldi-required format & Feature Extraction (MFCC & CMVN stats)
 # Following http://kaldi-asr.org/doc/data_prep.html
-if [ $stage -le 1 ]; then
+if [ $STAGE -le 1 ]; then
 
   ## - take only the original transcript that includes punctuation, capitalization & numeral
   #$BIN_DIR/preprocessing_v2/keep_original_script.sh
@@ -35,7 +35,7 @@ fi
 
 # Stage 2 - Prepare Language data in to kaldi-required format
 # Following http://kaldi-asr.org/doc/data_prep.html
-if [ $stage -le 2 ]; then
+if [ $STAGE -le 2 ]; then
 
   # - append capitalization, punctuation & numeral pronunciation information into lexicon dictionary for $KALDI_DATA_LOCATION/local/dict/lexicon.txt
   $BIN_DIR/lang_v2/append_lexicon.sh
@@ -54,7 +54,7 @@ fi
 
 # Stage 3 - Monophone & Triphone Training & Alignment
 # Following https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
-if [ $stage -le 3 ]; then
+if [ $STAGE -le 3 ]; then
 
   # Follwing https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html#monophone-training-and-alignment
   # - take subset (10k) of training data for monophone training
@@ -77,6 +77,24 @@ if [ $stage -le 3 ]; then
   # - make graph from FMLLR-aligned SAT triphones
   # - decode
   # - rescore the lattices with ConstARPA format LM
+  # -- comment this out, suggested by Professor Beigi in class
   #$BIN_DIR/monophone_triphone_training_alignment_v2/decode_sat_triphone.sh
+
+fi
+
+# Stage 4 - Train TDNN, RNNLM (LSTM), score the decoding and get WER from results.sh
+# Following TedLium s5_r3 recipe Stage 17 to 19
+
+if [ $STAGE -le 4 ]; then
+
+  # - run TDNN
+  $BIN_DIR/tdnn_rnn_lm_v2/run_tdnn.sh
+
+  # - run RNNLM (LSTM)
+  $BIN_DIR/tdnn_rnn_lm_v2/run_rnnlm.sh
+
+  # - score the decoding
+
+  # - run results to get WER
 
 fi
