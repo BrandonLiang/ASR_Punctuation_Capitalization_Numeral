@@ -96,6 +96,7 @@ if [ $STAGE -le 4 ]; then
   # - rescore the lattices from TDNN using LSTM RNN LM
   $BIN_DIR/tdnn_rnn_lm_v2/rescore_lattices.sh
 
-  # - run results to get WER
+  # - run results.sh to get WER
+  $BIN_DIR/tdnn_rnn_lm_v2/results.sh
 
 fi
