@@ -15,7 +15,7 @@ source "$ENV"
 source $SCRIPT_DIR/path.sh
 source $SCRIPT_DIR/cmd.sh
 
-# THis is where Neural-Network component begins
+# This is where Neural-Network component begins
 # Run TDNN on the GMM results from FMLLR-aligned SAT Triphones
 # (Requires GPU/CUDA)
 
