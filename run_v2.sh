@@ -68,6 +68,7 @@ if [ $stage -le 3 ]; then
   # - train delta + delta-delta triphones
   # - align delta + delta-delta triphones
   # - train LDA-MLLT triphones
+  # - clean up training data
   # - align LDA-MLLT triphones with FMLLR
   # - train SAT triphones
   # - align SAT triphones with FMLLR

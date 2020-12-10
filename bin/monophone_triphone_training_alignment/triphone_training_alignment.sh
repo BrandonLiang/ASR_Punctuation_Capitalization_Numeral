@@ -18,33 +18,33 @@ mkdir -p $KALDI_MODEL_LOCATION
 # Triphone Training & Alignment
 # https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
 
-## 1. train delta-based triphones
-#$KALDI_TEDLIUM/steps/train_deltas.sh \
-#  --boost-silence $BOOST_SILENCE \
-#  --cmd run.pl \
-#  2000 10000 \
-#  $KALDI_DATA_LOCATION/train \
-#  $KALDI_DATA_LOCATION/lang \
-#  $KALDI_MODEL_LOCATION/mono_ali \
-#  $KALDI_MODEL_LOCATION/tri1 || exit 1;
+# 1. train delta-based triphones
+$KALDI_TEDLIUM/steps/train_deltas.sh \
+  --boost-silence $BOOST_SILENCE \
+  --cmd run.pl \
+  2000 10000 \
+  $KALDI_DATA_LOCATION/train \
+  $KALDI_DATA_LOCATION/lang \
+  $KALDI_MODEL_LOCATION/mono_ali \
+  $KALDI_MODEL_LOCATION/tri1 || exit 1;
 
-## 2. align delta-based triphones
-#$KALDI_TEDLIUM/steps/align_si.sh \
-#  --nj $NJ \
-#  --cmd run.pl \
-#  $KALDI_DATA_LOCATION/train \
-#  $KALDI_DATA_LOCATION/lang \
-#  $KALDI_MODEL_LOCATION/tri1 \
-#  $KALDI_MODEL_LOCATION/tri1_ali || exit 1;
+# 2. align delta-based triphones
+$KALDI_TEDLIUM/steps/align_si.sh \
+  --nj $NJ \
+  --cmd run.pl \
+  $KALDI_DATA_LOCATION/train \
+  $KALDI_DATA_LOCATION/lang \
+  $KALDI_MODEL_LOCATION/tri1 \
+  $KALDI_MODEL_LOCATION/tri1_ali || exit 1;
 
-## 3. train delta + delta-delta triphones
-#$KALDI_TEDLIUM/steps/train_deltas.sh \
-#  --cmd run.pl \
-#  2500 15000 \
-#  $KALDI_DATA_LOCATION/train \
-#  $KALDI_DATA_LOCATION/lang \
-#  $KALDI_MODEL_LOCATION/tri1_ali \
-#  $KALDI_MODEL_LOCATION/tri2a || exit 1;
+# 3. train delta + delta-delta triphones
+$KALDI_TEDLIUM/steps/train_deltas.sh \
+  --cmd run.pl \
+  2500 15000 \
+  $KALDI_DATA_LOCATION/train \
+  $KALDI_DATA_LOCATION/lang \
+  $KALDI_MODEL_LOCATION/tri1_ali \
+  $KALDI_MODEL_LOCATION/tri2a || exit 1;
 
 # 4. align delta + delta-delta triphones
 $KALDI_TEDLIUM/steps/align_si.sh \
@@ -65,28 +65,38 @@ $KALDI_TEDLIUM/steps/train_lda_mllt.sh \
   $KALDI_MODEL_LOCATION/tri2a_ali \
   $KALDI_MODEL_LOCATION/tri3a || exit 1;
 
-# 6. align LDA-MLLT triphones with FMLLR
-$KALDI_TEDLIUM/steps/align_fmllr.sh \
+# 6. clean up training data - remove bad portions of transcripts
+$KALDI_TEDLIUM/steps/cleanup/clean_and_segment_data.sh \
   --nj $NJ \
   --cmd run.pl \
   $KALDI_DATA_LOCATION/train \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri3a \
+  $KALDI_MODEL_LOCATION/tri3a_cleaned_work \
+  $KALDI_DATA_LOCATION/train_cleaned
+
+# 7. align LDA-MLLT triphones with FMLLR
+$KALDI_TEDLIUM/steps/align_fmllr.sh \
+  --nj $NJ \
+  --cmd run.pl \
+  $KALDI_DATA_LOCATION/train_cleaned \
+  $KALDI_DATA_LOCATION/lang \
+  $KALDI_MODEL_LOCATION/tri3a \
   $KALDI_MODEL_LOCATION/tri3a_ali || exit 1;
 
-# 7. train SAT triphones
+# 8. train SAT triphones
 $KALDI_TEDLIUM/steps/train_sat.sh \
   --cmd run.pl \
   4200 40000 \
-  $KALDI_DATA_LOCATION/train \
+  $KALDI_DATA_LOCATION/train_cleaned \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri3a_ali \
   $KALDI_MODEL_LOCATION/tri4a || exit 1;
 
-# 8. align SAT triphones with FMLLR
+# 9. align SAT triphones with FMLLR
 $KALDI_TEDLIUM/steps/align_fmllr.sh \
   --cmd run.pl \
-  $KALDI_DATA_LOCATION/train \
+  $KALDI_DATA_LOCATION/train_cleaned \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri4a \
   $KALDI_MODEL_LOCATION/tri4a_ali || exit 1;
