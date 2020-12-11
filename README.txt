@@ -1,3 +1,7 @@
+--Python Package Prerequisites
+pip install -r requirements.txt
+--
+
 python/ - python scripts (describe each)
 conf/env.sh - stores environment variables for bash shell scripts
 bin/ - bash shell scripts (describe each)
