@@ -52,7 +52,7 @@ if [ $STAGE -le 2 ]; then
 
 fi
 
-# Stage 3 - Monophone & Triphone Training & Alignment
+# Stage 3 - Monophone & Triphone Training & Alignment for Statistical GMM-HMM
 # Following https://www.eleanorchodroff.com/tutorial/kaldi/training-acoustic-models.html
 if [ $STAGE -le 3 ]; then
 
@@ -82,7 +82,7 @@ if [ $STAGE -le 3 ]; then
 
 fi
 
-# Stage 4 - Train TDNN, RNNLM (LSTM), score the decoding and get WER from results.sh
+# Stage 4 - Train TDNN Acoustic Model, followed by RNN (LSTM) Language Model (from NGram arpa), score the decoding and get WER from results.sh
 # Following TedLium s5_r3 recipe Stage 17 to 19
 
 if [ $STAGE -le 4 ]; then
