@@ -65,21 +65,21 @@ $KALDI_TEDLIUM/steps/train_lda_mllt.sh \
   $KALDI_MODEL_LOCATION/tri2a_ali \
   $KALDI_MODEL_LOCATION/tri3a || exit 1;
 
-# 6. clean up training data - remove bad portions of transcripts
-$KALDI_TEDLIUM/steps/cleanup/clean_and_segment_data.sh \
-  --nj $NJ \
-  --cmd run.pl \
-  $KALDI_DATA_LOCATION/train \
-  $KALDI_DATA_LOCATION/lang \
-  $KALDI_MODEL_LOCATION/tri3a \
-  $KALDI_MODEL_LOCATION/tri3a_cleaned_work \
-  $KALDI_DATA_LOCATION/train_cleaned
+## 6. clean up training data - remove bad portions of transcripts
+#$KALDI_TEDLIUM/steps/cleanup/clean_and_segment_data.sh \
+#  --nj $NJ \
+#  --cmd run.pl \
+#  $KALDI_DATA_LOCATION/train \
+#  $KALDI_DATA_LOCATION/lang \
+#  $KALDI_MODEL_LOCATION/tri3a \
+#  $KALDI_MODEL_LOCATION/tri3a_cleaned_work \
+#  $KALDI_DATA_LOCATION/train_cleaned
 
 # 7. align LDA-MLLT triphones with FMLLR
 $KALDI_TEDLIUM/steps/align_fmllr.sh \
   --nj $NJ \
   --cmd run.pl \
-  $KALDI_DATA_LOCATION/train_cleaned \
+  $KALDI_DATA_LOCATION/train \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri3a \
   $KALDI_MODEL_LOCATION/tri3a_ali || exit 1;
@@ -88,7 +88,7 @@ $KALDI_TEDLIUM/steps/align_fmllr.sh \
 $KALDI_TEDLIUM/steps/train_sat.sh \
   --cmd run.pl \
   4200 40000 \
-  $KALDI_DATA_LOCATION/train_cleaned \
+  $KALDI_DATA_LOCATION/train \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri3a_ali \
   $KALDI_MODEL_LOCATION/tri4a || exit 1;
@@ -96,7 +96,7 @@ $KALDI_TEDLIUM/steps/train_sat.sh \
 # 9. align SAT triphones with FMLLR
 $KALDI_TEDLIUM/steps/align_fmllr.sh \
   --cmd run.pl \
-  $KALDI_DATA_LOCATION/train_cleaned \
+  $KALDI_DATA_LOCATION/train \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri4a \
   $KALDI_MODEL_LOCATION/tri4a_ali || exit 1;
