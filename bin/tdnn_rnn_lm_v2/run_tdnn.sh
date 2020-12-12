@@ -29,8 +29,6 @@ TDNN_STAGE=0
 
 $SCRIPT_DIR/local/chain/run_tdnn.sh \
   --nj $NJ \
-  --train-set $KALDI_DATA_LOCATION_TOKENIZED/train_cleaned \
-  --gmm $KALDI_MODEL_LOCATION_TOKENIZED/tri4a_ali \
-  --nnet3-affixa "" \
+  --nnet3-affix "" \
   --train_stage $TRAIN_STAGE \
   --stage $TDNN_STAGE

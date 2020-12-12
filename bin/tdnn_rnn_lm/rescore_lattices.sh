@@ -24,7 +24,7 @@ LANG_DIR=$KALDI_DATA_LOCATION/lang_chain
 
 for dset in dev test; do
   DATA_DIR=$KALDI_DATA_LOCATION/${dset}_hires
-  DECODING_DIR=$KALDI_MODEL_LOCATION/chain_cleaned/tdnnf_1a/decode_${dset}
+  DECODING_DIR=$KALDI_MODEL_LOCATION/chain/tdnnf_1a/decode_${dset}
   SUFFIX=$(basename $RNNLM_DIR)
   OUTPUT_DIR=${DECODING_DIR}_$SUFFIX
 

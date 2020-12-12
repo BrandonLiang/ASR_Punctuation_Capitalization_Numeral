@@ -40,8 +40,8 @@ decode_nj=8
 xent_regularize=0.1
 dropout_schedule='0,0@0.20,0.5@0.50,0'
 
-train_set=$KALDI_DATA_LOCATION/train_cleaned
-gmm=$KALDI_MODEL_LOCATION/tri4_ali  # the gmm for the target data
+train_set=$KALDI_DATA_LOCATION/train
+gmm=$KALDI_MODEL_LOCATION/tri4a_ali  # the gmm for the target data
 num_threads_ubm=8
 nnet3_affix=_cleaned_1d  # cleanup affix for nnet3 and chain dirs, e.g. _cleaned
 
@@ -72,11 +72,11 @@ echo "$0 $@"  # Print the command line for logging
 
 local/nnet3/run_ivector_common.sh --stage $stage \
                                   --nj $nj \
-                                  --train-set $train_set \
-                                  --gmm $gmm \
                                   --online-cmvn-iextractor $online_cmvn \
                                   --num-threads-ubm $num_threads_ubm \
                                   --nnet3-affix "$nnet3_affix"
+                                  #--train-set $train_set \
+                                  #--gmm $gmm \
 
 
 gmm_dir=$KALDI_MODEL_LOCATION/$gmm
