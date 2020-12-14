@@ -19,7 +19,7 @@ source "$ENV"
 mkdir -p $KALDI_MODEL_LOCATION
 
 # 1. make graph from FMLLR-aligned SAT triphones
-$KALDI_TEDLIUM/steps/utils/mkgraph.sh \
+$KALDI_TEDLIUM/utils/mkgraph.sh \
   $KALDI_DATA_LOCATION/lang \
   $KALDI_MODEL_LOCATION/tri4a_ali \
   $KALDI_MODEL_LOCATION/tri4a_ali/graph
