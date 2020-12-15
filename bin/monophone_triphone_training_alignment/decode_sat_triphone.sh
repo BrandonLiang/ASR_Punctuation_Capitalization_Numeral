@@ -18,6 +18,12 @@ source "$ENV"
 
 mkdir -p $KALDI_MODEL_LOCATION
 
+# 0. converts in Arpa format LM into the ConstArpLm format:
+$KALDI_TEDLIUM/utils/build_const_arpa_lm.sh \
+  $KALDI_DATA_LOCATION/local/tmp/lm.arpa.gz \
+  $KALDI_DATA_LOCATION/lang \
+  $KALDI_DATA_LOCATION/lang_rescore
+
 # 1. make graph from FMLLR-aligned SAT triphones
 $KALDI_TEDLIUM/utils/mkgraph.sh \
   $KALDI_DATA_LOCATION/lang \
