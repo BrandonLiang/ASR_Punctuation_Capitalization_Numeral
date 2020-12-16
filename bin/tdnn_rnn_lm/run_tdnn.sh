@@ -25,7 +25,7 @@ source $SCRIPT_DIR/cmd.sh
 # import pre-trained TedLium model (exp/rnnlm_lstm_tdnn_a_averaged/final.raw) by setting "--trainer.input-model" param in steps/nnet3/chain/train.py
 
 TRAIN_STAGE=-10
-TDNN_STAGE=3
+TDNN_STAGE=6
 
 $SCRIPT_DIR/local/chain/run_tdnn.sh \
   --nj $NJ \

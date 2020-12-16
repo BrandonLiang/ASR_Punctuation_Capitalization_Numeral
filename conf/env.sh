@@ -13,7 +13,7 @@ export KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 export PRETRAINED_TEDLIUM=$HOME/src/pretrained_tedlium_s5_r3/exp/rnnlm_lstm_tdnn_a_averaged/final.raw
 
 # number of jobs in parallel
-export NJ=8
+export NJ=16
 
 # want bigram for LM
 export LM_ORDER=4

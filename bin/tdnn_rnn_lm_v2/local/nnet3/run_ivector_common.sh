@@ -97,7 +97,7 @@ if [ $stage -le 5 ]; then
   # features; this helps make trained nnets more invariant to test data volume.
   utils/data/perturb_data_dir_volume.sh $KALDI_DATA_LOCATION_TOKENIZED/${train_set}_sp_hires
 
-  for datadir in ${train_set}_sp dev test; do
+  for datadir in ${train_set}_sp $KALDI_DATA_LOCATION_TOKENIZED/dev $KALDI_DATA_LOCATION_TOKENIZED/test; do
     steps/make_mfcc.sh --nj $nj --mfcc-config conf/mfcc_hires.conf \
       --cmd "$train_cmd" $KALDI_DATA_LOCATION_TOKENIZED/${datadir}_hires
     steps/compute_cmvn_stats.sh $KALDI_DATA_LOCATION_TOKENIZED/${datadir}_hires
