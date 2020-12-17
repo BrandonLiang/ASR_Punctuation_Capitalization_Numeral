@@ -122,4 +122,4 @@ opts=
 [ ! -f $srcdir/text ] && opts="$opts --no-text"
 [ ! -f $srcdir/wav.scp ] && opts="$opts --no-wav"
 
-utils/validate_data_dir.sh $opts $destdir
+utils/validate_data_dir.sh $opts $destdir --non-print

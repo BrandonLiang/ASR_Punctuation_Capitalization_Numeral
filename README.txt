@@ -51,3 +51,5 @@ raw_mfcc_train.1.ark
 raw_mfcc_train.1.scp
 
 (see NLU DST README syntax & format!)
+
+--draw result table here--

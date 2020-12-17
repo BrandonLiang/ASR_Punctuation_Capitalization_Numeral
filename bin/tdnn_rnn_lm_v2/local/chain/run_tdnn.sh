@@ -40,8 +40,8 @@ decode_nj=8
 xent_regularize=0.1
 dropout_schedule='0,0@0.20,0.5@0.50,0'
 
-train_set=$KALDI_DATA_LOCATION_TOKENIZED/train
-gmm=$KALDI_MODEL_LOCATION_TOKENIZED/tri4a_ali  # the gmm for the target data
+train_set=train
+gmm=tri4a_ali  # the gmm for the target data
 num_threads_ubm=8
 nnet3_affix=_cleaned_1d  # cleanup affix for nnet3 and chain dirs, e.g. _cleaned
 
