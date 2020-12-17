@@ -43,7 +43,7 @@ done
 
 if [ $stage -le 0 ]; then
   mkdir -p $text_dir
-  gunzip -c db/TEDLIUM_release-3/LM/*.en.gz | sed 's/ <\/s>//g' > $text_dir/train.txt
+  #gunzip -c db/TEDLIUM_release-3/LM/*.en.gz | sed 's/ <\/s>//g' > $text_dir/train.txt
   # shuffle text from audio and lm
   cat $text_from_audio | cut -d ' ' -f2- | cat $text_dir/train.txt |\
     shuf > $KALDI_DATA_LOCATION_TOKENIZED/rnnlm/full_lm_data.shuffled
