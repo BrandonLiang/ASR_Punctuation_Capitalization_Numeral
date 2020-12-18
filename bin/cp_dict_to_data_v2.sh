@@ -9,7 +9,7 @@
 #SCRIPT=`greadlink -f "$0"`
 SCRIPT=`readlink -f "$0"`
 SCRIPT_DIR=`dirname "$SCRIPT"`
-APP_HOME="$SCRIPT_DIR"/../..
+APP_HOME="$SCRIPT_DIR"/..
 
 CONF=$APP_HOME/conf
 PYTHON_DIR=$APP_HOME/python

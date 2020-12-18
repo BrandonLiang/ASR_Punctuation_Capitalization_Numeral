@@ -202,7 +202,7 @@ if [ $stage -le 18 ]; then
      /export/b0{5,6,7,8}/$USER/kaldi-data/egs/ami-$(date +'%m_%d_%H_%M')/s5/$dir/egs/storage $dir/egs/storage
   fi
 
- $KALDI_TEDLIUM/steps/nnet3/chain/train.py --stage $train_stage \
+  $KALDI_TEDLIUM/steps/nnet3/chain/train.py --stage $train_stage \
     --cmd "$decode_cmd" \
     --feat.online-ivector-dir $train_ivector_dir \
     --feat.cmvn-opts="--config=conf/online_cmvn.conf" \
@@ -234,30 +234,30 @@ fi
 
 
 
-if [ $stage -le 19 ]; then
-  # Note: it might appear that this data/lang_chain directory is mismatched, and it is as
-  # far as the 'topo' is concerned, but this script doesn't read the 'topo' from
-  # the lang directory.
-  $KALDI_TEDLIUM/utils/mkgraph.sh --self-loop-scale 1.0 $KALDI_DATA_LOCATION/lang $dir $dir/graph
-fi
+#if [ $stage -le 19 ]; then
+#  # Note: it might appear that this data/lang_chain directory is mismatched, and it is as
+#  # far as the 'topo' is concerned, but this script doesn't read the 'topo' from
+#  # the lang directory.
+#  $KALDI_TEDLIUM/utils/mkgraph.sh --self-loop-scale 1.0 $KALDI_DATA_LOCATION/lang $dir $dir/graph
+#fi
 
-if [ $stage -le 20 ]; then
-  rm $dir/.error 2>/dev/null || true
-  for dset in dev test; do
-      (
-      $KALDI_TEDLIUM/steps/nnet3/decode.sh --num-threads 4 --nj $decode_nj --cmd "$decode_cmd" \
-          --acwt 1.0 --post-decode-acwt 10.0 \
-          --online-ivector-dir $KALDI_MODEL_LOCATION/nnet3${nnet3_affix}/ivectors_${dset}_hires \
-          --scoring-opts "--min-lmwt 5 " \
-         $dir/graph $KALDI_DATA_LOCATION/${dset}_hires $dir/decode_${dset} || exit 1;
-      $KALDI_TEDLIUM/steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" $KALDI_DATA_LOCATION/lang $KALDI_DATA_LOCATION/lang_rescore \
-        $KALDI_DATA_LOCATION/${dset}_hires ${dir}/decode_${dset} ${dir}/decode_${dset}_rescore || exit 1
-    ) || touch $dir/.error &
-  done
-  wait
-  if [ -f $dir/.error ]; then
-    echo "$0: something went wrong in decoding"
-    exit 1
-  fi
-fi
-exit 0
+#if [ $stage -le 20 ]; then
+#  rm $dir/.error 2>/dev/null || true
+#  for dset in dev test; do
+#      (
+#      $KALDI_TEDLIUM/steps/nnet3/decode.sh --num-threads 4 --nj $decode_nj --cmd "$decode_cmd" \
+#          --acwt 1.0 --post-decode-acwt 10.0 \
+#          --online-ivector-dir $KALDI_MODEL_LOCATION/nnet3${nnet3_affix}/ivectors_${dset}_hires \
+#          --scoring-opts "--min-lmwt 5 " \
+#         $dir/graph $KALDI_DATA_LOCATION/${dset}_hires $dir/decode_${dset} || exit 1;
+#      $KALDI_TEDLIUM/steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" $KALDI_DATA_LOCATION/lang $KALDI_DATA_LOCATION/lang_rescore \
+#        $KALDI_DATA_LOCATION/${dset}_hires ${dir}/decode_${dset} ${dir}/decode_${dset}_rescore || exit 1
+#    ) || touch $dir/.error &
+#  done
+#  wait
+#  if [ -f $dir/.error ]; then
+#    echo "$0: something went wrong in decoding"
+#    exit 1
+#  fi
+#fi
+#exit 0
