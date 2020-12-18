@@ -13,11 +13,12 @@ APP_HOME="$SCRIPT_DIR"/..
 
 CONF=$APP_HOME/conf
 PYTHON_DIR=$APP_HOME/python
-PREDICTION=$APP_HOME/prediction
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
 source $SCRIPT_DIR/path.sh
 source $SCRIPT_DIR/cmd.sh
+
+PREDICTION=$APP_HOME/prediction_${VERSION}
 
 # Use trained model (on NSC) to make predictions on test data
 # Following https://medium.com/@nithinraok_/decoding-an-audio-file-using-a-pre-trained-model-with-kaldi-c1d7d2fe3dc5
