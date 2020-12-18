@@ -202,7 +202,7 @@ if [ $stage -le 18 ]; then
      /export/b0{5,6,7,8}/$USER/kaldi-data/egs/ami-$(date +'%m_%d_%H_%M')/s5/$dir/egs/storage $dir/egs/storage
   fi
 
-  $KALDI_TEDLIUM/steps/nnet3/chain/train.py --stage $train_stage \
+  python3 $KALDI_TEDLIUM/steps/nnet3/chain/train.py --stage $train_stage \
     --cmd "$decode_cmd" \
     --feat.online-ivector-dir $train_ivector_dir \
     --feat.cmvn-opts="--config=conf/online_cmvn.conf" \

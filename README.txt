@@ -146,7 +146,9 @@ Train script
     To run:
         - cd into ./bin
         - ./train.sh
-    The arguments are already configured and stored in each sub-executables in ./bin/ (see above) and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and the used sub-executables in ./bin/.
+        - The arguments are already configured and stored in each sub-executables in ./bin/ (see above) and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and the used sub-executables in ./bin/.
+
+To change model version, see $VERSION in ./conf/env.sh.
 
 This script runs the training process of my ASR model from scratch:
     Stage 1 - Data Prep (following http://kaldi-asr.org/doc/data_prep.html)
@@ -173,9 +175,11 @@ Test script
     To run:
         - cd into ./bin
         - ./test.sh
-    The arguments are already configured and stored in this script and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and ./bin/test.sh.
+        - The arguments are already configured and stored in this script and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and ./bin/test.sh.
 
 This script essentially finds best lattice path and converts the token ids from the decoded text to actual word tokens using word.txt in language directory, to make the decoding result human-readable.
+
+The current configuration decodes the test lattice of GMM-HMM model for Version 2. To change model, see $MODEL_DIR in ./bin/test.sh. To change model version, see $VERSION in ./conf/env.sh.
 
 The prediction result can be found under ./prediction/${MODEL}/decode_test_rescore/decoded_text.txt
 
