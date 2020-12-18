@@ -4,6 +4,10 @@ Date: 12/17/2020
 
 ---------------------
 
+Note: my main executable scripts (./bin/train.sh & ./bin/test.sh) do not follow the Kaldi Ted-Lium run.sh script, even though the underlying workflow closely follows that of the Ted-Lium recipe. Therefore, according to TA response in Piazza post @113_f1, I do not need to include the .diff file in my main directory.
+
+---------------------
+
 Project Title: Including Punctuation, Capitalization and Numeral in Automatic Speech Recognition
 
 Project Summary
