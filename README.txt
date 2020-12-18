@@ -32,7 +32,7 @@ Below is the test Word Error Rate (WER) result of the ASR model for both version
 | (Traditional ASR) |                         |                   |
 -------------------------------------------------------------------
 | Version 1 -       |                         |                   |
-| Punct Attached    |           39.7%         |         -         |
+| Punct Attached    |           39.7%         |         --        |
 | (Enhanced ASR)    |                         |                   |
 -------------------------------------------------------------------
 | Version 2 -       |                         |                   |
