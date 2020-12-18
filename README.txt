@@ -146,7 +146,7 @@ Train script
         - ./train.sh
     The arguments are already configured and stored in each sub-executables in ./bin/ (see above) and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and the used sub-executables in ./bin/.
 
-Training Process in ./bin/train.sh
+This script runs the training process of my ASR model from scratch:
     Stage 1 - Data Prep (following http://kaldi-asr.org/doc/data_prep.html)
         prepares the NSC dataset into Kaldi-required format (text, wav.scp, utt2spk, etc.) and splits them into train, dev & test set using 8:1:1 ratio
     Stage 2 - dictionary, lang and LM
@@ -155,6 +155,8 @@ Training Process in ./bin/train.sh
         runs through monophone and triphone (delta-based, delta + delta, LDA-MLLT & SAT) training and alignment to get the GMM-HMM model and decodes the model to get prediction and WER
     Stage 4 - Neural Modeling
         runs through TDNN and RNNLM to get the final model and decodes the model to get prediction and WER
+
+Note that it will most likely crash because the Kaldi-required data/ and exp/ directories are not stored in this repository.
 
 Sample Decoding Files:
     decoded lattices: ./exp_v?/tri4a_ali/decode_*/lat.*.gz
