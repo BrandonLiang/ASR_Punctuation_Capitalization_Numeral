@@ -15,9 +15,11 @@ CONF=$APP_HOME/conf
 PYTHON_DIR=$APP_HOME/python
 ENV="$CONF"/env.sh # configuration file
 source "$ENV"
-source $SCRIPT_DIR/path.sh
-source $SCRIPT_DIR/cmd.sh
 
-# train RNNLM
-$SCRIPT_DIR/local/rnnlm/tuning/run_lstm_tdnn_a.sh
-$SCRIPT_DIR/local/rnnlm/average_rnnlm.sh
+# generate numbers under K to feed into CMU LOGIOS Lexicon Tool (http://www.speech.cs.cmu.edu/tools/lextool.html) for ARPAbet pronunciation mapping
+# for appending numeral pronunciation to the lexicon
+K=10000 # threshold
+
+python3 $PYTHON_DIR/number_generator.py \
+  --k $K \
+  --output_location $APP_HOME/nsc_dict_data/local/dict/numbers.txt

@@ -20,25 +20,25 @@ echo "splitting"
 # split the created text, wav.scp, utt2spk from all to train, dev, test, using utt-id in all files
 # 80-10-10 split
 # ! make sure $dir/{text, utt2spk, wav.scp} are all sorted
-python3 $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION_TOKENIZED/all --target_parent_dir $KALDI_DATA_LOCATION_TOKENIZED
+python3 $PYTHON_DIR/train_dev_test_split.py --data_location $KALDI_DATA_LOCATION/all --target_parent_dir $KALDI_DATA_LOCATION
 
 echo "removing escaped double quote in \$dir/text"
 for dir in train dev test; do
-  sed 's/\ \"/\ /g' $KALDI_DATA_LOCATION_TOKENIZED/$dir/text | sed 's/\"$//g' > $KALDI_DATA_LOCATION_TOKENIZED/$dir/tmp; mv $KALDI_DATA_LOCATION_TOKENIZED/$dir/tmp $KALDI_DATA_LOCATION_TOKENIZED/$dir/text
+  sed 's/\ \"/\ /g' $KALDI_DATA_LOCATION/$dir/text | sed 's/\"$//g' > $KALDI_DATA_LOCATION/$dir/tmp; mv $KALDI_DATA_LOCATION/$dir/tmp $KALDI_DATA_LOCATION/$dir/text
 done
 
 # then, create spk2utt, feats.scp & cmvn.scp in all 3 partitions
 for dir in train dev test; do
   echo "Working on $dir"
-  CUR_DATA_DIR=$KALDI_DATA_LOCATION_TOKENIZED/$dir
+  CUR_DATA_DIR=$KALDI_DATA_LOCATION/$dir
   mkdir -p $CUR_DATA_DIR
 
   # created using kaldi utils
-  CUR_KALDI_UTT2SPK=$KALDI_DATA_LOCATION_TOKENIZED/$dir/utt2spk # already created from data_prep.sh & above
-  CUR_KALDI_SPK2UTT=$KALDI_DATA_LOCATION_TOKENIZED/$dir/spk2utt
+  CUR_KALDI_UTT2SPK=$KALDI_DATA_LOCATION/$dir/utt2spk # already created from data_prep.sh & above
+  CUR_KALDI_SPK2UTT=$KALDI_DATA_LOCATION/$dir/spk2utt
   # http://www.inf.ed.ac.uk/teaching/courses/asr/2019-20/lab6.pdf
-  CUR_KALDI_MFCC_DIR=$KALDI_DATA_LOCATION_TOKENIZED/$dir/data
-  CUR_KALDI_MFCC_LOG_DIR=$KALDI_DATA_LOCATION_TOKENIZED/$dir/log
+  CUR_KALDI_MFCC_DIR=$KALDI_DATA_LOCATION/$dir/data
+  CUR_KALDI_MFCC_LOG_DIR=$KALDI_DATA_LOCATION/$dir/log
   mkdir -p $CUR_KALDI_MFCC_DIR
   mkdir -p $CUR_KALDI_MFCC_LOG_DIR
 
@@ -62,8 +62,8 @@ done
 
 # validate prepped data directory
 for dir in train dev test; do
-  echo "Validating $KALDI_DATA_LOCATION_TOKENIZED/$dir"
-  $KALDI_TEDLIUM/utils/validate_data_dir.sh $KALDI_DATA_LOCATION_TOKENIZED/$dir
+  echo "Validating $KALDI_DATA_LOCATION/$dir"
+  $KALDI_TEDLIUM/utils/validate_data_dir.sh $KALDI_DATA_LOCATION/$dir
   # fix
-  # $KALDI_TEDLIUM/utils/fix_data_dir.sh $KALDI_DATA_LOCATION_TOKENIZED/$dir
+  # $KALDI_TEDLIUM/utils/fix_data_dir.sh $KALDI_DATA_LOCATION/$dir
 done

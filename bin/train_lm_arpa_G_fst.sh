@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash
 
 # UNI: xl2891
 # Name: Xudong Liang (Brandon)
@@ -21,8 +21,8 @@ source $SCRIPT_DIR/path.sh
 # Following: https://kaldi-asr.org/doc/kaldi_for_dummies.html
 
 # 0. generate corpus.txt for all transcriptions
-KALDI_ALL_TEXT_TSV=$KALDI_DATA_LOCATION_TOKENIZED/all/text.tsv
-KALDI_ALL_TEXT=$KALDI_DATA_LOCATION_TOKENIZED/all/corpus.txt
+KALDI_ALL_TEXT_TSV=$KALDI_DATA_LOCATION/all/text.tsv
+KALDI_ALL_TEXT=$KALDI_DATA_LOCATION/all/corpus.txt
 
 cut -f 2- $KALDI_ALL_TEXT_TSV > $KALDI_ALL_TEXT
 
@@ -45,17 +45,17 @@ if [ -z $loc ]; then
 fi
 
 # 2. make lm.arpa
-mkdir -p $KALDI_DATA_LOCATION_TOKENIZED/local/tmp
+mkdir -p $KALDI_DATA_LOCATION/local/tmp
 ngram-count \
   -order $LM_ORDER \
-  -write-vocab $KALDI_DATA_LOCATION_TOKENIZED/local/tmp/vocab-full.txt \
+  -write-vocab $KALDI_DATA_LOCATION/local/tmp/vocab-full.txt \
   -wbdiscount \
   -text $KALDI_ALL_TEXT \
-  -lm $KALDI_DATA_LOCATION_TOKENIZED/local/tmp/lm.arpa
+  -lm $KALDI_DATA_LOCATION/local/tmp/lm.arpa
 
 # 3. make G.st (Finite-State Transducer, equivalent to HMM)
 $KALDI_ROOT/src/lmbin/arpa2fst \
   --disambig-symbol=#0 \
-  --read-symbol-table=$KALDI_DATA_LOCATION_TOKENIZED/lang/words.txt \
-  $KALDI_DATA_LOCATION_TOKENIZED/local/tmp/lm.arpa \
-  $KALDI_DATA_LOCATION_TOKENIZED/lang/G.fst
+  --read-symbol-table=$KALDI_DATA_LOCATION/lang/words.txt \
+  $KALDI_DATA_LOCATION/local/tmp/lm.arpa \
+  $KALDI_DATA_LOCATION/lang/G.fst
