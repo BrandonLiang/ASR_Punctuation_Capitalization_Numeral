@@ -84,7 +84,7 @@ List of Directories and Executables:
         nonsilence_phones.txt
         optional_silence.txt
         silence_phones.txt
-    ./nsc_dict_data/local/
+    ./nsc_dict_data/local/ (I do not include lexicon.txt since it can be quite big)
         dict/ - dictionary files for Version 1 of this project (NSC data)
             nonsilence_phones.txt
             numbers.txt
@@ -99,8 +99,21 @@ List of Directories and Executables:
             numeral_lexicon_dumb.tsv
             optional_silence.txt
             silence_phones.txt
-    ./sample_lang_v2 - directory for sample language dictionary files for Version 2 (Version 1 Lexicon is very large, there discarded here)
-        # need to complete later
+    ./data - sample data directory for demonstration purpose
+        ./train - directory for sample training data in Kaldi format
+            reco2dur
+            conf/
+            data/ - intermediate scp & ark files (I emptied the ark files)
+            frame_shift
+            text
+            wav.scp
+            feats.scp
+            cmvn.scp
+            utt2spk
+            spk2utt
+            utt2dur
+            utt2num_frames
+        ./lang_v2 - directory for language dictionary files for Version 2 (Version 1 Lexicon is very large, there discarded here)
     ./exp_v1 - directory for Version 1 Kaldi model artifacts
         tri4a_ali/ - GMM-HMM Model (Monophone + Triphone) Decoding & Scoring Results on dev & test
             decode_dev/
@@ -117,7 +130,7 @@ List of Directories and Executables:
             decode_test/
             decode_test.si/
             decode_test_rescore/
-        # - TDNN + RNNLM Model Decoding & Scoring Restuls on dev & test
+        # to be completed - TDNN + RNNLM Model Decoding & Scoring Restuls on dev & test
 
 --------------------
 
@@ -130,7 +143,7 @@ Train script
     The arguments are already configured and stored in each sub-executables in ./bin/ (see above) and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and the used sub-executables in ./bin/.
 
 Training Process in ./bin/train.sh
-    Stage 1 - Data Prep
+    Stage 1 - Data Prep (following http://kaldi-asr.org/doc/data_prep.html)
         prepares the NSC dataset into Kaldi-required format (text, wav.scp, utt2spk, etc.) and splits them into train, dev & test set using 8:1:1 ratio
     Stage 2 - dictionary, lang and LM
         appends the lexicon pronunciation mapping of punctuation (2 versions), capitalization & numeral to the default Ted-Lium lexicon, copies the generated dictionary files into pre-defined Kaldi local/dict directory, creates the lang directory using Kaldi scripts and trains the N-Gram language model
@@ -139,9 +152,15 @@ Training Process in ./bin/train.sh
     Stage 4 - Neural Modeling
         runs through TDNN and RNNLM to get the final model and decodes the model to get prediction and WER
 
+Sample Decoding Files:
+    decoded lattices: ./exp_v?/tri4a_ali/decode_*/lat.*.gz
+    decoded text (prediction, in token ids): ./exp_v?/tri4a_ali/decode_*/trans.*
+    WER of decoded text compared to ground truth: ./exp_v?/tri4a_ali/decode_*/wer_*
+
 --------------------
 
 Test script
+# to be completed
 
  ./bin/test.sh - to be run inside ./bin/
     To run:
@@ -149,35 +168,22 @@ Test script
         - ./test.sh
     The arguments are already configured and stored in this script and ./conf/env.sh so there is no need to pass arguments to this script. To change arguments, please refer to ./conf/env.sh and ./bin/test.sh.
 
-# doc
-
-# create from the decoding result (mkgraph, decode, rescore)
-# - see ./bin/decode and rescore_lattices.sh
-
-For the sample decoding and scoring result, please see exp_v1/ and exp_v2/ described above in List of Directories
-# sample lat.*.gz for lattices
-# sample WER* for WER scores
-# sample trans.* for prediction
-    # need to convert id to token
+This script essentially converts the token ids from the decoded text to actual word tokens using word.txt in language directory, to make the decoding result human-readable.
 
 --------------------
 
-one bin
-data & model location switch in conf/env.sh
-mention!
+Sample Data Directory
+see ./data/ from List of Directories above
 
-### data prep - following http://kaldi-asr.org/doc/data_prep.html
+Note: I do not include the raw data of Singapore NSC here since it is not considered a new/custom dataset.
 
-sample_data/train # kaldi style & requirement & convention
-raw/{020010.TXT, 02001-0001.WAV} spk_id -> utt_id
-kaldi: text, utt2spk,  wav.scp, spk2utt, feat.scp, cmvn.scp
-data/local/dict/lexicon (default, numeral_base, numeral_dumb)
+Note: these are not the actual data locations I use in Kaldi training (please see $KALDI_DATA_LOCATION in ./conf/env.sh)
 
-utt2num_frames, utt2dur, frame_shift
+--------------------
 
-train/data/
-cmvn_train.ark
-cmvn_train.scp
-make_mfcc_train.1.log
-raw_mfcc_train.1.ark
-raw_mfcc_train.1.scp
+Sample Model Artifact Directory
+see ./exp_v?/ from List of Directories above
+
+Note: these are not the actual model/artifact locations I use in Kaldi training (please see $KALDI_MODEL_LOCATION in ./conf/env.sh)
+
+--------------------
