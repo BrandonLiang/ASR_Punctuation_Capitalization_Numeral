@@ -156,7 +156,7 @@ This script runs the training process of my ASR model from scratch:
     Stage 4 - Neural Modeling
         runs through TDNN and RNNLM to get the final model and decodes the model to get prediction and WER
 
-Note that it will most likely crash because the Kaldi-required data/ and exp/ directories are not stored in this repository.
+Note that it will most likely crash because the actual Kaldi-required data/ and exp/ directories are not stored in this repository.
 
 Sample Decoding Files:
     decoded lattices: ./exp_v?/tri4a_ali/decode_*/lat.*.gz
