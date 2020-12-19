@@ -154,7 +154,7 @@ if [ $stage -le 17 ]; then
   mkdir -p $dir/configs
   cat <<EOF > $dir/configs/network.xconfig
   input dim=100 name=ivector
-  input dim=40 name=input
+  input dim=13 name=input
 
   # please note that it is important to have input layer with the name=input
   # as the layer immediately preceding the fixed-affine-layer to enable
@@ -216,8 +216,7 @@ if [ $stage -le 18 ]; then
     --egs.dir "$common_egs_dir" \
     --egs.opts "--frames-overlap-per-eg 0 --constrained false --online-cmvn $online_cmvn" \
     --egs.chunk-width 150,110,100 \
-    --trainer.input-model $PRETRAINED_TEDLIUM \
-    --trainer.num-chunk-per-minibatch 64 \
+    --trainer.num-chunk-per-minibatch 16 \
     --trainer.frames-per-iter 5000000 \
     --trainer.num-epochs 6 \
     --trainer.optimization.num-jobs-initial 3 \
@@ -230,6 +229,7 @@ if [ $stage -le 18 ]; then
     --tree-dir $tree_dir \
     --lat-dir $lat_dir \
     --dir $dir
+    #--trainer.input-model $PRETRAINED_TEDLIUM \
 fi
 
 
