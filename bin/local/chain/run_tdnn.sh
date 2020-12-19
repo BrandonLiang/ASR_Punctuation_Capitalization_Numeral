@@ -204,6 +204,7 @@ if [ $stage -le 18 ]; then
 
   python3 $KALDI_TEDLIUM/steps/nnet3/chain/train.py --stage $train_stage \
     --cmd "$decode_cmd" \
+    --use-gpu=wait \
     --feat.online-ivector-dir $train_ivector_dir \
     --feat.cmvn-opts="--config=conf/online_cmvn.conf" \
     --chain.xent-regularize $xent_regularize \
@@ -219,8 +220,8 @@ if [ $stage -le 18 ]; then
     --trainer.num-chunk-per-minibatch 16 \
     --trainer.frames-per-iter 5000000 \
     --trainer.num-epochs 6 \
-    --trainer.optimization.num-jobs-initial 3 \
-    --trainer.optimization.num-jobs-final 12 \
+    --trainer.optimization.num-jobs-initial 2 \
+    --trainer.optimization.num-jobs-final 3 \
     --trainer.optimization.initial-effective-lrate 0.00025 \
     --trainer.optimization.final-effective-lrate 0.000025 \
     --trainer.max-param-change 2.0 \
