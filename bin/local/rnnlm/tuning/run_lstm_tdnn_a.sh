@@ -63,7 +63,7 @@ if [ $stage -le 1 ]; then
   echo "<unk>" >$dir/config/oov.txt
 
   cat > $dir/config/data_weights.txt <<EOF
-ted   1   1.0
+train   1   1.0
 EOF
 
   $KALDI_TEDLIUM/rnnlm/get_unigram_probs.py --vocab-file=$dir/config/words.txt \
