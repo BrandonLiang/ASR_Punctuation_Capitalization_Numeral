@@ -35,8 +35,8 @@ set -e -o pipefail
 # (some of which are also used in this script directly).
 stage=0
 
-nj=8
-decode_nj=8
+nj=16
+decode_nj=16
 xent_regularize=0.1
 dropout_schedule='0,0@0.20,0.5@0.50,0'
 
@@ -217,9 +217,10 @@ if [ $stage -le 18 ]; then
     --egs.dir "$common_egs_dir" \
     --egs.opts "--frames-overlap-per-eg 0 --constrained false --online-cmvn $online_cmvn" \
     --egs.chunk-width 150,110,100 \
-    --trainer.num-chunk-per-minibatch 28 \
+    --trainer.input-model $TDNN_MODEL_CHECKPOINT \
+    --trainer.num-chunk-per-minibatch 128 \
     --trainer.frames-per-iter 5000000 \
-    --trainer.num-epochs 3 \
+    --trainer.num-epochs 2 \
     --trainer.optimization.num-jobs-initial 2 \
     --trainer.optimization.num-jobs-final 3 \
     --trainer.optimization.initial-effective-lrate 0.00025 \
@@ -230,7 +231,6 @@ if [ $stage -le 18 ]; then
     --tree-dir $tree_dir \
     --lat-dir $lat_dir \
     --dir $dir
-    #--trainer.input-model $PRETRAINED_TEDLIUM \
 fi
 
 

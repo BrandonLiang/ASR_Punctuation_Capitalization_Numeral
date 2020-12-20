@@ -25,7 +25,7 @@ PREDICTION=$APP_HOME/prediction_${VERSION}
 
 # model directory in exp/ for testing (decoding)
 # prediction result in $PREDICTION?$FULL_MODEL_DIR/decoded_text.txt
-MODEL_DIR=tri4a_ali
+MODEL_DIR=chain/tdnn1d_sp
 FULL_MODEL_DIR=$MODEL_DIR/decode_test_rescore
 
 # decode the lattices

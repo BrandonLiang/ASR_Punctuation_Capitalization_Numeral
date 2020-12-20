@@ -16,6 +16,7 @@ export KALDI_ROOT=$HOME/src/kaldi
 export KALDI_TEDLIUM=$KALDI_ROOT/egs/tedlium/s5_r3
 
 export PRETRAINED_TEDLIUM=$HOME/src/pretrained_tedlium_s5_r3/exp/rnnlm_lstm_tdnn_a_averaged/final.raw
+export TDNN_MODEL_CHECKPOINT=$HOME/external/asr_data/NSC/PART2/kaldi_v2/exp/chain/tdnn1d_sp/302.mdl
 
 # number of jobs in parallel
 export NJ=16
