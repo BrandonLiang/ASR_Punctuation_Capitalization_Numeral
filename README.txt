@@ -19,7 +19,7 @@ Thus, in total, there are two lexicon versions, hence two ASR model versions to 
 
 For Acoustic and Language Modeling, I follow the TedLium recipe to get both statistical GMM-HMM 4-Gram model and neural TDNN RNNLM model.
 
-Below is the test Word Error Rate (WER) result of the ASR model for both versions. Expectedly, Version 2 performs better than Version 1 for statistical model, although still worse than Ted-Lium result. Thus, I run Version 2 again through the neural Acoustic models (TDNN) and get its WER in the right column. (I didn't run through RNNLM due to time constraint). The results are shown in the table below. We can see that TDNN significantly improves performance, but Version 2 is still inferior compared to the state-of-the-art Ted-Lium model.
+Below is the test Word Error Rate (WER) result of the ASR model for both versions. Expectedly, Version 2 performs better than Version 1 for statistical model, although still worse than Ted-Lium result. Thus, I run Version 2 again through the neural Acoustic models (TDNN) and get its WER in the right column. (I only trained TDNN for 1 epoch and didn't run through RNNLM due to time constraint). The results are shown in the table below. We can see that TDNN significantly improves performance, but Version 2 is still inferior compared to the state-of-the-art Ted-Lium model.
 
 ----------------------------------------------------------------------
 | ASR Model         | AM: GMM-HMM, LM: 4-Gram | + AM: TDNN (1 Epoch) |
