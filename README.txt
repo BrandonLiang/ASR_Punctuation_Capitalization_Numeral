@@ -206,7 +206,7 @@ Test Script
 
 Sample Data, Dict and Lang Directory
 
-    see ./data/, ./nsc_dict_data/local/{dict, dict_v2}/, ./lang_v2/ from List of Directories above
+    see ./data/train/, ./nsc_dict_data/local/{dict, dict_v2}/, ./data/lang_v2/ from List of Directories above
 
     Note: I do not include the raw data of Singapore NSC here since it is not considered a new/custom dataset.
 
