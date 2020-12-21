@@ -24,7 +24,7 @@ PREDICTION=$APP_HOME/prediction_${VERSION}
 # Following https://medium.com/@nithinraok_/decoding-an-audio-file-using-a-pre-trained-model-with-kaldi-c1d7d2fe3dc5
 
 # model directory in exp/ for testing (decoding)
-# prediction result in $PREDICTION?$FULL_MODEL_DIR/decoded_text.txt
+# prediction result in $PREDICTION/$FULL_MODEL_DIR/decoded_text.txt
 MODEL_DIR=chain/tdnn1d_sp
 FULL_MODEL_DIR=$MODEL_DIR/decode_test_rescore
 
